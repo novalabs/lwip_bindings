@@ -1,0 +1,5 @@
+{
+  "name": "lwip_bindings",
+  "description": "LWIP Bindings",
+  "provider": "core"
+}
