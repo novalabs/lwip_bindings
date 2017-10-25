@@ -103,7 +103,7 @@ public:
      * @brief   Runtime TCP/IP settings.
      */
     struct Options {
-        uint8_t* mac_address;
+        uint8_t mac_address[6];
         ip_addr  address;
         ip_addr  netmask;
         ip_addr  gateway;
