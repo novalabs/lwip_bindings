@@ -80,7 +80,7 @@
 #define FRAME_RECEIVED_ID       2
 
 #if LWIP_PTP
-#include "ptpd-2.0.0/src/ptpd.h"
+#include <ptpd.h>
 #endif
 
 /*
