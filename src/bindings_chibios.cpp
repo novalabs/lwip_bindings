@@ -84,6 +84,50 @@
 #endif
 
 /*
+ * If we want to use ChibiOS heap functions instead of LWIP ones,
+ * you must properly configure LWIP:
+ *
+#ifndef MEM_LIBC_MALLOC
+#define MEM_LIBC_MALLOC                 1
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#ifndef mem_free
+void sys_free(void* p);
+#define mem_free sys_free
+#endif
+#ifndef mem_malloc
+void* sys_malloc(size_t size);
+#define mem_malloc sys_malloc
+#endif
+#ifndef mem_calloc
+void* sys_calloc(size_t size);
+#define mem_calloc sys_calloc
+#endif
+#ifdef __cplusplus
+}
+#endif
+ *
+ */
+extern "C" {
+void sys_free(void* p) {
+	chHeapFree(p);
+}
+
+void* sys_malloc(size_t size) {
+	return chHeapAlloc(0, size);
+}
+
+void* sys_calloc(size_t size) {
+	void* tmp = chHeapAlloc(0, size);
+	memset(tmp, 0, size);
+	return tmp;
+}
+}
+
+/*
  * Suspension point for initialization procedure.
  */
 thread_reference_t  _lwip_trp = NULL;
