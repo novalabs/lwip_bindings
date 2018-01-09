@@ -69,7 +69,7 @@
 #include <lwip/snmp.h>
 #include <lwip/tcpip.h>
 #include "netif/etharp.h"
-#include "netif/ppp_oe.h"
+//#include "netif/ppp_oe.h"
 
 
 #if LWIP_DHCP
@@ -111,6 +111,7 @@ void* sys_calloc(size_t size);
 #endif
  *
  */
+
 extern "C" {
 void sys_free(void* p) {
 	chHeapFree(p);
@@ -318,7 +319,7 @@ LWIP::_thread(
 {
     event_timer_t    evt;
     event_listener_t el0, el1;
-    struct ip_addr   ip, gateway, netmask;
+    struct ip4_addr   ip, gateway, netmask;
     bool use_dhcp = false;
 
     static const MACConfig mac_config = {

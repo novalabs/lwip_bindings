@@ -104,9 +104,9 @@ public:
      */
     struct Options {
         uint8_t mac_address[6];
-        ip_addr  address;
-        ip_addr  netmask;
-        ip_addr  gateway;
+        ip4_addr  address;
+        ip4_addr  netmask;
+        ip4_addr  gateway;
     };
 
     static void
