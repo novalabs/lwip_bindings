@@ -122,7 +122,9 @@ void* sys_malloc(size_t size) {
 
 void* sys_calloc(size_t size) {
 	void* tmp = chHeapAlloc(0, size);
-	memset(tmp, 0, size);
+	if(tmp) {
+		memset(tmp, 0, size);
+	}
 	return tmp;
 }
 }
