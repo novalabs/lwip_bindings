@@ -68,6 +68,7 @@
 #include <lwip/stats.h>
 #include <lwip/snmp.h>
 #include <lwip/tcpip.h>
+#include <lwip/dns.h>
 #include "netif/etharp.h"
 
 
@@ -318,7 +319,7 @@ LWIP::_thread(
 {
     event_timer_t    evt;
     event_listener_t el0, el1;
-    ip_addr_t   ip, gateway, netmask;
+    ip_addr_t   ip, gateway, netmask, primary_dns, secondary_dns;
     bool use_dhcp = false;
 
     static const MACConfig mac_config = {
@@ -342,6 +343,8 @@ LWIP::_thread(
         ip      = opts->address;
         gateway = opts->gateway;
         netmask = opts->netmask;
+        primary_dns = opts->primary_dns;
+        secondary_dns = opts->secondary_dns;
     } else {
         _thisif.hwaddr[0] = LWIP_ETHADDR_0;
         _thisif.hwaddr[1] = LWIP_ETHADDR_1;
@@ -352,12 +355,17 @@ LWIP::_thread(
         LWIP_IPADDR(&ip);
         LWIP_GATEWAY(&gateway);
         LWIP_NETMASK(&netmask);
+        LWIP_PRIMARY_DNS(&primary_dns);
+        LWIP_SECONDARY_DNS(&secondary_dns);
     }
 
     use_dhcp = (ip.addr == IPADDR_NONE);
 
     macStart(&ETHD1, &mac_config);
     netif_add(&_thisif, &ip, &netmask, &gateway, NULL, ethernetif_init, tcpip_input);
+
+	dns_setserver(0, &primary_dns);
+	dns_setserver(1, &secondary_dns);
 
     netif_set_default(&_thisif);
     netif_set_up(&_thisif);

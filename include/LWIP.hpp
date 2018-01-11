@@ -53,6 +53,14 @@
 #define LWIP_NETMASK(p)                     IP4_ADDR(p, 255, 255, 255, 0)
 #endif
 
+#if !defined(LWIP_PRIMARY_DNS) || defined(__DOXYGEN__)
+#define LWIP_PRIMARY_DNS(p)                 *p = *IP_ADDR_ANY
+#endif
+
+#if !defined(LWIP_SECONDARY_DNS) || defined(__DOXYGEN__)
+#define LWIP_SECONDARY_DNS(p)               *p = *IP_ADDR_ANY
+#endif
+
 #if !defined(LWIP_SEND_TIMEOUT) || defined(__DOXYGEN__)
 #define LWIP_SEND_TIMEOUT                   50
 #endif
@@ -107,6 +115,8 @@ public:
         ip_addr_t  address;
         ip_addr_t  netmask;
         ip_addr_t  gateway;
+        ip_addr_t  primary_dns;
+        ip_addr_t  secondary_dns;
     };
 
     static void
